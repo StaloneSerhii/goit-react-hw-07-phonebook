@@ -1,31 +1,39 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
-import { onDelete } from 'redux/Slice';
+import { getContact, getError, getIsLoading } from 'redux/selector';
+import { useEffect } from 'react';
+import { deleteContact, fetchContact } from 'redux/operations';
 
 export const Contacts = () => {
-  const contact = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
-  const dispatch = useDispatch()
+  const contact = useSelector(getContact);
+  // const isLoad = useSelector(getIsLoading);
+  // const error = useSelector(getError);
+  const dispatch = useDispatch();
+  // const filter = useSelector(state => state.filter);
 
-  const fiterRenderValue =()=>{
-    const normalizedFilter = filter.toLocaleLowerCase();
-    return contact.filter(contact => 
-  contact.name.toLocaleLowerCase().includes(normalizedFilter)
-      );
-   }
- const filterRend = fiterRenderValue()
- 
+  useEffect(() => {
+    dispatch(fetchContact());
+  }, [dispatch]);
+
+  // const fiterRenderValue = () => {
+  //   const normalizedFilter = filter.toLocaleLowerCase();
+  //   return contact.filter(contact =>
+  //     contact.name.toLocaleLowerCase().includes(normalizedFilter)
+  //   );
+  // };
+  // const filterRend = fiterRenderValue();
+  console.log(contact);
   return (
     <div>
       <h2>Contacts</h2>
       <ul>
-        {filterRend.map(({ name, number, id }) => (
+        {contact.map(({ id, name, phone }) => (
           <li key={id}>
             <p>Name:</p>
             <span>{name}</span>
             <p>Number:</p>
-            <span>{number}</span>
-            <button onClick={()=>dispatch(onDelete(id))}>Delete</button>
+            <span>{phone}</span>
+            <button onClick={() => dispatch(deleteContact(id))}>Delete</button>
           </li>
         ))}
       </ul>

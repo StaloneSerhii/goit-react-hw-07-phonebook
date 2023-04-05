@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/Slice';
-import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/operations';
 
 export const Form = () => {
-  const contact = useSelector(state => state.contacts);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -26,19 +24,17 @@ export const Form = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const alertFind = contact.find(contact => contact.name === name);
-    if (alertFind) {
-      return alert(`${name} is already in contacs.`);
-    }
-    let id = nanoid();
-    dispatch(addContact({ name, number, id }));
-    reset();
+    // const alertFind = contact.find(contact => contact.name === name);
+    // if (alertFind) {
+    //   return alert(`${name} is already in contacs.`);
+    // }
+    dispatch(addContact({ name, number }));
   };
 
-  const reset = () => {
-    setName('');
-    setNumber('');
-  };
+  //   const reset = () => {
+  //     setName('');
+  //     setNumber('');
+  //   };
 
   return (
     <div>

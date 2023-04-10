@@ -13,7 +13,6 @@ export const filterSlice = createSlice({
 });
 
 export const { changeFilterRedux } = filterSlice.actions;
-
 const contactSlice = createSlice({
   name: 'contact',
   initialState: {

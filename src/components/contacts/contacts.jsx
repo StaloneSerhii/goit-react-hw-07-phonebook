@@ -1,33 +1,32 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
-import { getContact, getError, getIsLoading } from 'redux/selector';
+import { getContact, getStatusFilter} from 'redux/selector';
 import { useEffect } from 'react';
 import { deleteContact, fetchContact } from 'redux/operations';
 
 export const Contacts = () => {
   const contact = useSelector(getContact);
-  // const isLoad = useSelector(getIsLoading);
-  // const error = useSelector(getError);
-  const dispatch = useDispatch();
-  // const filter = useSelector(state => state.filter);
+  const filterRedux = useSelector(getStatusFilter)
 
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchContact());
   }, [dispatch]);
 
-  // const fiterRenderValue = () => {
-  //   const normalizedFilter = filter.toLocaleLowerCase();
-  //   return contact.filter(contact =>
-  //     contact.name.toLocaleLowerCase().includes(normalizedFilter)
-  //   );
-  // };
-  // const filterRend = fiterRenderValue();
-  console.log(contact);
+  const filterContacts = () => {
+    const normalizedFilter = filterRedux.toLowerCase();
+    console.log(normalizedFilter);
+    return contact.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter));
+  };
+
+  const filtredContacts = filterContacts();
+
   return (
     <div>
       <h2>Contacts</h2>
       <ul>
-        {contact.map(({ id, name, phone }) => (
+        {filtredContacts && filtredContacts.map(({ id, name, phone }) => (
           <li key={id}>
             <p>Name:</p>
             <span>{name}</span>

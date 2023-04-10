@@ -16,7 +16,7 @@ export const App = () => {
       }}
     >
       <Form />
-      {/* <FindFilt/> */}
+      <FindFilt/>
       <Contacts />
     </div>
   );
